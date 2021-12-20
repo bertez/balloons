@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 body {
@@ -18,18 +19,19 @@ main div {
   cursor: grab;
   font-size: 8rem;
   transition: opacity 500ms;
-  user-select: none;
 }
 
 p {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
   font-size: 3rem;
   font-weight: bold;
+  pointer-events: none;
 }
 
-img {
+span {
   position: absolute;
   pointer-events: none;
 }

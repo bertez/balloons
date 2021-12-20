@@ -8,26 +8,27 @@ const windowWidth = window.innerWidth;
 let speed = 1;
 let points = 0;
 let gameOver = false;
-let stopped = true;
+let stopped = false;
 
 balloon.onclick = function () {
-  if (!gameOver) {
+  if (!gameOver && !stopped) {
     speed += 0.25;
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
     scoreboard.textContent = `${++points} puntos`;
     setTimeout(reset, 500);
-    stopped = false;
+    stopped = true;
   }
 };
 
 function getCloud() {
   // Esto das nubes pode quitarse e queda moito máis simple
-  const cloud = document.createElement("img");
-  cloud.setAttribute("src", "cloud.svg");
+  const cloud = document.createElement("span");
+  cloud.textContent = "☁️";
+  const size = Math.random() * 400;
+  cloud.style.fontSize = `${size}px`;
   cloud.style.top = `${Math.random() * windowHeight}px`;
-  cloud.style.left = `${Math.random() * windowWidth}px`;
-  cloud.setAttribute("width", Math.random() * 500);
+  cloud.style.left = `${Math.random() * windowWidth - size / 2}px`;
   return cloud;
 }
 
@@ -40,20 +41,21 @@ function reset() {
 
   const y = windowHeight;
   const x = Math.random() * (windowWidth - width);
+  balloon.style.transform = `translate(${x}px, ${y}px)`;
 
   sky.append(getCloud());
 
-  balloon.style.transform = `translate(${x}px, ${y}px)`;
-  stopped = true;
+  stopped = false;
   window.requestAnimationFrame(loop);
 }
 
 function loop() {
-  if (stopped) {
+  if (!stopped) {
     const { x, y } = balloon.getBoundingClientRect();
 
     if (y < 0) {
       balloon.textContent = "💥";
+      scoreboard.textContent = `Sacaste ${points} puntos. Recarga para intentarlo de nuevo.`;
       gameOver = true;
     } else {
       balloon.style.transform = `translate(${x}px, ${y - speed}px)`;
