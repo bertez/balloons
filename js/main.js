@@ -12,16 +12,26 @@ let stopped = true;
 
 balloon.onclick = function () {
   if (!gameOver) {
-    speed += 0.5;
+    speed += 0.25;
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
     scoreboard.textContent = `${++points} puntos`;
-    setTimeout(resetBalloon, 500);
+    setTimeout(reset, 500);
     stopped = false;
   }
 };
 
-function resetBalloon() {
+function getCloud() {
+  // Esto das nubes pode quitarse e queda moito máis simple
+  const cloud = document.createElement("img");
+  cloud.setAttribute("src", "cloud.svg");
+  cloud.style.top = `${Math.random() * windowHeight}px`;
+  cloud.style.left = `${Math.random() * windowWidth}px`;
+  cloud.setAttribute("width", Math.random() * 500);
+  return cloud;
+}
+
+function reset() {
   balloon.textContent = "🎈";
   balloon.style.opacity = 1;
   balloon.style.fontSize = `${4 + Math.random() * 4}rem`;
@@ -31,16 +41,11 @@ function resetBalloon() {
   const y = windowHeight;
   const x = Math.random() * (windowWidth - width);
 
-  const cloud = document.createElement("img");
-  cloud.setAttribute("src", "cloud.svg");
-  cloud.style.top = `${Math.random() * windowHeight}px`;
-  cloud.style.left = `${Math.random() * windowWidth}px`;
-  cloud.setAttribute("width", Math.random() * 500);
-  sky.appendChild(cloud);
+  sky.append(getCloud());
 
   balloon.style.transform = `translate(${x}px, ${y}px)`;
   stopped = true;
-  requestAnimationFrame(loop);
+  window.requestAnimationFrame(loop);
 }
 
 function loop() {
@@ -52,9 +57,9 @@ function loop() {
       gameOver = true;
     } else {
       balloon.style.transform = `translate(${x}px, ${y - speed}px)`;
-      requestAnimationFrame(loop);
+      window.requestAnimationFrame(loop);
     }
   }
 }
 
-resetBalloon();
+reset();

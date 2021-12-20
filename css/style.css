@@ -31,4 +31,5 @@ p {
 
 img {
   position: absolute;
+  pointer-events: none;
 }
