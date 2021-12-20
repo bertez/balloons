@@ -12,7 +12,7 @@ let stopped = false;
 
 balloon.onclick = function () {
   if (!gameOver && !stopped) {
-    speed += 0.25;
+    speed += 0.15;
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
     scoreboard.textContent = `${++points} puntos`;
