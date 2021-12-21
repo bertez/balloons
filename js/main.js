@@ -8,7 +8,7 @@ const windowWidth = window.innerWidth;
 let speed = 1;
 let points = 0;
 let gameOver = false;
-let stopped = false;
+let stopped = true;
 
 balloon.onclick = function () {
   if (!gameOver && !stopped) {
