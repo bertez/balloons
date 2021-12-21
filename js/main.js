@@ -6,36 +6,28 @@ const scoreboard = document.querySelector("body p");
 //Nota: recalcular on resize
 const { innerHeight, innerWidth } = window;
 
-let speedFactor = 1;
+let speedFactor = 0;
 let points = 0;
 let gameOver = false;
-let stopped = true;
-let animation;
 
 balloon.onclick = function () {
-  if (!gameOver && !stopped) {
-    speedFactor += 100;
+  if (!gameOver) {
+    pause();
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
-    scoreboard.textContent = `${++points} ⭐️`;
 
-    setTimeout(reset, 500);
-    stopped = true;
+    scoreboard.textContent = `${++points} ✨`;
+
+    speedFactor += 100;
+    setTimeout(run, 500);
   }
 };
 
-function getCloud() {
-  // Esto das nubes pode quitarse e queda moito máis simple
-  const cloud = document.createElement("span");
-  cloud.textContent = "☁️";
-  const size = Math.random() * 400;
-  cloud.style.fontSize = `${size}px`;
-  cloud.style.top = `${Math.random() * innerHeight}px`;
-  cloud.style.left = `${Math.random() * innerWidth - size / 2}px`;
-  return cloud;
-}
+// Lanza el globo desde la base
+function run() {
+  cancel();
+  addCloud();
 
-function reset() {
   balloon.textContent = "🎈";
   balloon.style.opacity = 1;
   balloon.style.fontSize = `${4 + Math.random() * 4}rem`;
@@ -45,10 +37,6 @@ function reset() {
   const y = innerHeight;
   const x = Math.random() * (innerWidth - width);
 
-  sky.append(getCloud());
-
-  balloon.getAnimations().map((a) => a.cancel());
-
   balloon.animate(
     [
       { transform: `translate(${x}px, ${y}px)` },
@@ -56,14 +44,34 @@ function reset() {
     ],
     { duration: 5000 - speedFactor, fill: "forwards" }
   ).onfinish = endGame;
-
-  stopped = false;
 }
 
+// Cancela la anterior animación
+function cancel() {
+  balloon.getAnimations().map((a) => a.cancel());
+}
+
+// Pausa el globo
+function pause() {
+  balloon.getAnimations().map((a) => a.pause());
+}
+
+// Añade una nueva nube
+function addCloud() {
+  const cloud = document.createElement("span");
+  cloud.textContent = "☁️";
+  const size = Math.random() * 400;
+  cloud.style.fontSize = `${size}px`;
+  cloud.style.top = `${Math.random() * innerHeight}px`;
+  cloud.style.left = `${Math.random() * innerWidth - size / 2}px`;
+  sky.append(cloud);
+}
+
+// Acaba la partida
 function endGame() {
   gameOver = true;
   balloon.textContent = "💥";
   scoreboard.textContent = `Salvaste ${points} globos. Recarga para intentarlo de nuevo.`;
 }
 
-reset();
+run();
