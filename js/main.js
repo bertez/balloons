@@ -10,6 +10,7 @@ let speedFactor = 1;
 let points = 0;
 let gameOver = false;
 let stopped = true;
+let animation;
 
 balloon.onclick = function () {
   if (!gameOver && !stopped) {
@@ -17,6 +18,7 @@ balloon.onclick = function () {
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
     scoreboard.textContent = `${++points} ⭐️`;
+
     setTimeout(reset, 500);
     stopped = true;
   }
@@ -45,28 +47,23 @@ function reset() {
 
   sky.append(getCloud());
 
+  balloon.getAnimations().map((a) => a.cancel());
+
   balloon.animate(
     [
       { transform: `translate(${x}px, ${y}px)` },
-      { transform: `translate(${x}px, -1px)` },
+      { transform: `translate(${x}px, 0px)` },
     ],
     { duration: 5000 - speedFactor, fill: "forwards" }
-  );
+  ).onfinish = endGame;
 
   stopped = false;
 }
 
-const observer = new IntersectionObserver(
-  ([el]) => {
-    if (el.boundingClientRect.y < 0) {
-      gameOver = true;
-      balloon.textContent = "💥";
-      scoreboard.textContent = `Salvaste ${points} globos. Recarga para intentarlo de nuevo.`;
-    }
-  },
-  { root: null, threshold: 1 }
-);
-
-observer.observe(balloon);
+function endGame() {
+  gameOver = true;
+  balloon.textContent = "💥";
+  scoreboard.textContent = `Salvaste ${points} globos. Recarga para intentarlo de nuevo.`;
+}
 
 reset();
