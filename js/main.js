@@ -15,7 +15,7 @@ balloon.onclick = function () {
     speed += 0.15;
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
-    scoreboard.textContent = `${++points} puntos`;
+    scoreboard.textContent = `${++points} ⭐️`;
     setTimeout(reset, 500);
     stopped = true;
   }
@@ -55,7 +55,7 @@ function loop() {
 
     if (y < 0) {
       balloon.textContent = "💥";
-      scoreboard.textContent = `Sacaste ${points} puntos. Recarga para intentarlo de nuevo.`;
+      scoreboard.textContent = `Salvaste ${points} globos. Recarga para intentarlo de nuevo.`;
       gameOver = true;
     } else {
       balloon.style.transform = `translate(${x}px, ${y - speed}px)`;
