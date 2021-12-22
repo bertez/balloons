@@ -9,15 +9,17 @@ const { innerHeight, innerWidth } = window;
 let speedFactor = 0;
 let points = 0;
 let gameOver = false;
+let clicked = false;
 
 balloon.onclick = function () {
-  if (!gameOver) {
+  if (!gameOver && !clicked) {
     pause();
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
 
     scoreboard.textContent = `${++points} ✨`;
 
+    clicked = true;
     speedFactor += 100;
     setTimeout(run, 500);
   }
@@ -27,6 +29,7 @@ balloon.onclick = function () {
 function run() {
   cancel();
   addCloud();
+  clicked = false;
 
   balloon.textContent = "🎈";
   balloon.style.opacity = 1;
