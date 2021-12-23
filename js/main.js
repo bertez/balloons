@@ -72,7 +72,8 @@ function addCloud() {
 function endGame() {
   gameOver = true;
   balloon.textContent = "💥";
-  scoreboard.textContent = `Salvaste ${points} globos. Recarga para intentarlo de nuevo.`;
+  scoreboard.textContent = `Salvaste ${points} ${FLYING_ITEM}. Recarga para intentarlo de nuevo.`;
 }
 
+scoreboard.textContent = `No dejes que el ${FLYING_ITEM} llegue hasta arriba!`;
 run();
