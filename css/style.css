@@ -4,13 +4,14 @@
   user-select: none;
 }
 
-html {
+html,
+body {
   overflow: hidden;
+  touch-action: none;
 }
 
 body {
   font-family: sans-serif;
-  overflow: hidden;
 }
 
 main {
