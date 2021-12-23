@@ -6,11 +6,13 @@ const scoreboard = document.querySelector("body p");
 //Nota: recalcular on resize
 const { innerHeight, innerWidth } = window;
 
+const FLYING_ITEM = "🎄";
+
 let speedFactor = 0;
 let points = 0;
 
 balloon.onclick = function () {
-  if (balloon.textContent === "🎈") {
+  if (balloon.textContent === FLYING_ITEM) {
     pause();
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
@@ -27,7 +29,7 @@ function run() {
   addCloud();
   cancel();
 
-  balloon.textContent = "🎈";
+  balloon.textContent = FLYING_ITEM;
   balloon.style.opacity = 1;
   balloon.style.fontSize = `${4 + Math.random() * 4}rem`;
 
