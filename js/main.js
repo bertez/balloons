@@ -8,18 +8,15 @@ const { innerHeight, innerWidth } = window;
 
 let speedFactor = 0;
 let points = 0;
-let gameOver = false;
-let clicked = false;
 
 balloon.onclick = function () {
-  if (!gameOver && !clicked) {
+  if (balloon.textContent === "🎈") {
     pause();
     balloon.textContent = "✨";
     balloon.style.opacity = 0;
 
     scoreboard.textContent = `${++points} ✨`;
 
-    clicked = true;
     speedFactor += 100;
     setTimeout(run, 500);
   }
@@ -27,9 +24,8 @@ balloon.onclick = function () {
 
 // Lanza el globo desde la base
 function run() {
-  cancel();
   addCloud();
-  clicked = false;
+  cancel();
 
   balloon.textContent = "🎈";
   balloon.style.opacity = 1;
@@ -45,7 +41,7 @@ function run() {
       { transform: `translate(${x}px, ${y}px)` },
       { transform: `translate(${x}px, 0px)` },
     ],
-    { duration: 5000 - speedFactor, fill: "forwards" }
+    { duration: 5000 - speedFactor, fill: "both" }
   ).onfinish = endGame;
 }
 
@@ -63,10 +59,10 @@ function pause() {
 function addCloud() {
   const cloud = document.createElement("span");
   cloud.textContent = "☁️";
-  const size = Math.random() * 400;
-  cloud.style.fontSize = `${size}px`;
+  const size = Math.random() * 20;
+  cloud.style.fontSize = `${size}rem`;
   cloud.style.top = `${Math.random() * innerHeight}px`;
-  cloud.style.left = `${Math.random() * innerWidth - size / 2}px`;
+  cloud.style.left = `${Math.random() * innerWidth - (size * 16) / 2}px`;
   sky.append(cloud);
 }
 
